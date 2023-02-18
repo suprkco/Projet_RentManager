@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.epf.rentmanager.dao.ClientDao;
+import com.epf.rentmanager.exception.DaoException;
+import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.model.Client;
 
 public class ClientService {
 
@@ -24,18 +27,23 @@ public class ClientService {
 	
 	
 	public long create(Client client) throws ServiceException {
-		// TODO: créer un client
+		// TODO: create a client
 		return 0;
 	}
 
 	public Client findById(long id) throws ServiceException {
-		// TODO: récupérer un client par son id
+		// TODO: retrieve a client by its id
 		return new Client();
 	}
 
 	public List<Client> findAll() throws ServiceException {
-		// TODO: récupérer tous les clients
-		return new ArrayList<Client>();
+		// TODO: recover all customers
+		try {
+			return ClientDao.getInstance().findAll();
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException();
+		}
 	}
 	
 }

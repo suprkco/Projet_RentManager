@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.epf.rentmanager.exception.DaoException;
+import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.persistence.ConnectionManager;
 
 public class ClientDao {
@@ -24,10 +26,10 @@ public class ClientDao {
 		return instance;
 	}
 	
-	private static final String CREATE_CLIENT_QUERY = "INSERT INTO Client(nom, prenom, email, naissance) VALUES(?, ?, ?, ?);";
+	private static final String CREATE_CLIENT_QUERY = "INSERT INTO Client(lastname, firstname, email, birthday) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?;";
-	private static final String FIND_CLIENT_QUERY = "SELECT nom, prenom, email, naissance FROM Client WHERE id=?;";
-	private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
+	private static final String FIND_CLIENT_QUERY = "SELECT lastname, firstname, email, birthday FROM Client WHERE id=?;";
+	private static final String FIND_CLIENTS_QUERY = "SELECT id, lastname, firstname, email, birthday FROM Client;";
 	
 	public long create(Client client) throws DaoException {
 		return 0;
@@ -42,7 +44,26 @@ public class ClientDao {
 	}
 
 	public List<Client> findAll() throws DaoException {
-		return new ArrayList<Client>();
+		List<Client> clients = new ArrayList<Client>();
+
+		try {
+			Connection connection = ConnectionManager.getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(FIND_CLIENTS_QUERY);
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String lastname = resultSet.getString("lastname");
+				String firstname = resultSet.getString("firstname");
+				String email = resultSet.getString("email");
+				LocalDate birthday = resultSet.getDate("birthday").toLocalDate();
+
+				clients.add(new Client(id, lastname, firstname, email, birthday));
+			}
+		} catch (SQLException e) {
+			throw new DaoException();
+		}
+
+		return clients;
 	}
 
 }
