@@ -40,7 +40,12 @@ public class VehicleService {
 
 	public List<Vehicle> findAll() throws ServiceException {
 		// TODO: recover all customers
-		return new ArrayList<Vehicle>();
+		try {
+			return VehicleDao.getInstance().findAll();
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException();
+		}
 	}
 	
 }

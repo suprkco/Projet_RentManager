@@ -42,7 +42,24 @@ public class VehicleDao {
 	}
 
 	public List<Vehicle> findAll() throws DaoException {
-		return new ArrayList<Vehicle>();
+		List<Vehicle> vehicles = new ArrayList<Vehicle>();
+
+		try {
+			Connection connection = ConnectionManager.getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(FIND_VEHICLES_QUERY);
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String manufacturer = resultSet.getString("manufacturer");
+				int nb_places = resultSet.getInt("nb_places");
+
+				vehicles.add(new Vehicle(id, manufacturer, nb_places));
+			}
+		} catch (SQLException e) {
+			throw new DaoException();
+		}
+
+		return vehicles;
 		
 	}
 	

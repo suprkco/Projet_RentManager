@@ -26,6 +26,12 @@ public class Vehicle {
         this.nb_places = nb_places;
     }
 
+    public Vehicle(int id, String manufacturer, int nb_places) {
+        this.id = id;
+        this.manufacturer = manufacturer;
+        this.nb_places = nb_places;
+    }
+
     public int getId() {
         return id;
     }
