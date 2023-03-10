@@ -24,23 +24,29 @@
                 <div class="col-md-12">
                     <!-- Horizontal Form -->
                     <div class="box">
+
                         <!-- form start -->
                         <form class="form-horizontal" method="post" action="/users/create">
                             <div class="box-body">
+                                <!-- lastname -->
                                 <div class="form-group">
-                                    <label for="last_name" class="col-sm-2 control-label">Nom</label>
+                                    <label for="lastname" class="col-sm-2 control-label">Lastname</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Nom">
+                                        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Lastname">
                                     </div>
                                 </div>
+
+                                <!-- firstname -->
                                 <div class="form-group">
-                                    <label for="first_name" class="col-sm-2 control-label">Prenom</label>
+                                    <label for="firstname" class="col-sm-2 control-label">Firstname</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Prenom">
+                                        <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Firstname">
                                     </div>
                                 </div>
+
+                                <!-- email -->
                                 <div class="form-group">
                                     <label for="email" class="col-sm-2 control-label">Email</label>
 
@@ -48,6 +54,16 @@
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                                     </div>
                                 </div>
+
+                                <!-- Birthdate -->
+                                <div class="form-group">
+                                    <label for="birthdate" class="col-sm-2 control-label">Birthdate</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" id="birthdate" name="birthdate" placeholder="Birthdate">
+                                    </div>
+                                </div>
+
                             </div>
                             <!-- /.box-body -->
                             <div class="box-footer">
@@ -55,6 +71,7 @@
                             </div>
                             <!-- /.box-footer -->
                         </form>
+
                     </div>
                     <!-- /.box -->
                 </div>

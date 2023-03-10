@@ -32,44 +32,46 @@ public class Client {
         this.birthdate = birthdate;
     }
 
+    // getters and setters id
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
 
+    // getters and setters lastname
     public String getLastname() {
         return lastname;
     }
-
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
+// getters and setters firstname
+    public String getFirstname() { return firstname; }
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
+    // getters and setters email
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
 
+    // getters and setters birthdate
     public LocalDate getBirthdate() {
         return birthdate;
     }
-
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public String getClient_info() {
+        return lastname + " " + firstname;
     }
 
     @Override
@@ -77,4 +79,5 @@ public class Client {
         return "Client [id=" + id + ", lastname=" + lastname + ", firstname=" + firstname + ", email=" + email
                 + ", birthdate=" + birthdate + "]";
     }
+
 }

@@ -26,8 +26,8 @@ public class VehicleService {
 		
 		return instance;
 	}
-	
-	
+
+	// We will prevent the creation or update of a Vehicle if its constructor (manufacturer) is empty. We will also make sure that the number of places is greater than 1. If such operations are attempted, we will send a ServiceException.
 	public long create(Vehicle vehicle) throws ServiceException {
 		// TODO: create a vehicle
 		return 0;
@@ -44,8 +44,17 @@ public class VehicleService {
 			return VehicleDao.getInstance().findAll();
 		} catch (DaoException e) {
 			e.printStackTrace();
-			throw new ServiceException();
+			throw new ServiceException("Problem when retrieving the vehicles " + e.getMessage());
 		}
 	}
-	
+
+	// get number of vehicles
+	public int getCount() {
+		try {
+			return VehicleDao.getInstance().getCount();
+		} catch (DaoException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 }

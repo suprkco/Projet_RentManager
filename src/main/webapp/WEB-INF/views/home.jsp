@@ -32,7 +32,8 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Utilisateurs</span>
-              <span class="info-box-number">3</span>
+              <!-- "nbClients" attribute -->
+              <span class="info-box-number">${nbClients}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -45,7 +46,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Voitures</span>
-              <span class="info-box-number">2</span>
+              <span class="info-box-number">${nbVehicles}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -62,7 +63,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Reservations</span>
-              <span class="info-box-number">2</span>
+              <span class="info-box-number">${nbReservations}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
