@@ -20,16 +20,16 @@
                     <!-- Profile Image -->
                     <div class="box box-primary">
                         <div class="box-body box-profile">
-                            <h3 class="profile-username text-center">${client.firstname} ${client.lastname} (${client.email})</h3>
+<%--                            <h3 class="profile-username text-center">${client.firstname} ${client.lastname} (${client.email})</h3>--%>
 
-                            <ul class="list-group list-group-unbordered">
-                                <li class="list-group-item">
-                                    <b>Reservation(s)</b> <a class="pull-right">${lenReservations}</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Voiture(s)</b> <a class="pull-right">0</a>
-                                </li>
-                            </ul>
+<%--                            <ul class="list-group list-group-unbordered">--%>
+<%--                                <li class="list-group-item">--%>
+<%--                                    <b>Reservation(s)</b> <a class="pull-right">${lenReservations}</a>--%>
+<%--                                </li>--%>
+<%--                                <li class="list-group-item">--%>
+<%--                                    <b>Voiture(s)</b> <a class="pull-right">0</a>--%>
+<%--                                </li>--%>
+<%--                            </ul>--%>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -52,14 +52,14 @@
                                             <th>Date de debut</th>
                                             <th>Date de fin</th>
                                         </tr>
-                                        <c:forEach items="${reservations}" var="reservation">
-                                        <tr>
-                                            <td>${reservation.id}.</td>
-                                            <td>${reservation.vehicle_id}</td>
-                                            <td>${reservation.startTime}</td>
-                                            <td>${reservation.endTime}</td>
-                                        </tr>
-                                        </c:forEach>
+<%--                                        <c:forEach items="${reservations}" var="reservation">--%>
+<%--                                            <tr>--%>
+<%--                                                <td>${reservation.id}.</td>--%>
+<%--                                                <td>${reservation.vehicle_id}</td>--%>
+<%--                                                <td>${reservation.startTime}</td>--%>
+<%--                                                <td>${reservation.endTime}</td>--%>
+<%--                                            </tr>--%>
+<%--                                        </c:forEach>--%>
                                     </table>
                                 </div>
                             </div>
@@ -74,14 +74,14 @@
                                             <th>Constructeur</th>
                                             <th style=>Number of seats</th>
                                         </tr>
-                                        <c:forEach items="${vehicles}" var="vehicle">
-                                            <tr>
-                                                <td>${vehicle.id}.</td>
-                                                <td>${vehicle.model}</td>
-                                                <td>${vehicle.manufacturer}</td>
-                                                <td>${vehicle.nb_places}</td>
-                                            </tr>
-                                        </c:forEach>
+<%--                                        <c:forEach items="${vehicles}" var="vehicle">--%>
+<%--                                            <tr>--%>
+<%--                                                <td>${vehicle.id}.</td>--%>
+<%--                                                <td>${vehicle.model}</td>--%>
+<%--                                                <td>${vehicle.manufacturer}</td>--%>
+<%--                                                <td>${vehicle.nb_places}</td>--%>
+<%--                                            </tr>--%>
+<%--                                        </c:forEach>--%>
                                     </table>
                                 </div>
                             </div>

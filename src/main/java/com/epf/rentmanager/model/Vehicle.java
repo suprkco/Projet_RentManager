@@ -11,8 +11,7 @@ public class Vehicle {
     private String manufacturer, model;
     private int nb_places;
 
-    public Vehicle() {
-    }
+    public Vehicle() { }
 
     public Vehicle(int id, String manufacturer, String model, int nb_places) {
         this.id = id;
@@ -61,13 +60,7 @@ public class Vehicle {
     public int getNb_places() {
         return nb_places;
     }
-    public void setNb_places(int nb_places) {
-        this.nb_places = nb_places;
-    }
-
-    public String getVehicle_info() {
-        return manufacturer + " " + model;
-    }
+    public void setNb_places(int nb_places) { this.nb_places = nb_places; }
 
     @Override
     public String toString() {

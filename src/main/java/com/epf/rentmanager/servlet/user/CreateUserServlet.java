@@ -1,9 +1,12 @@
-package com.epf.rentmanager.servlet;
+package com.epf.rentmanager.servlet.user;
 
+import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,15 +23,24 @@ import javax.servlet.ServletException;
 @WebServlet("/users/create")
 public class CreateUserServlet extends HttpServlet {
     /**
-     *
+     * Create a new user
      */
     private static final long serialVersionUID = 1L;
+
+    @Autowired
+    private ClientService clientService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         // récupérer les paramètres du formulaire
         String lastName = request.getParameter("lastname");
         String firstName = request.getParameter("firstname");
@@ -52,17 +64,13 @@ public class CreateUserServlet extends HttpServlet {
             return;
         }
 
-        ClientService clientService = ClientService.getInstance();
         try {
             clientService.addClient(lastName, firstName, email, birthdate);
-        } catch (SQLException e) {
+        } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
 
-        request.setAttribute("message", "The new user has been successfully created.");
+        response.sendRedirect(request.getContextPath() + "/users");
 
-
-        // rediriger vers une page de confirmation ou de liste des utilisateurs
-        response.sendRedirect(request.getContextPath() + "/users/list.jsp");
     }
 }

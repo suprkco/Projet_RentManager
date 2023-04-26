@@ -1,5 +1,7 @@
 package com.epf.rentmanager.model;
 
+// import jdk.jshell.Snippet;
+
 import java.time.LocalDate;
 
 // + INT id PRIMARY KEY
@@ -14,8 +16,7 @@ public class Client {
     private String lastname, firstname, email;
     private LocalDate birthdate;
 
-    public Client() {
-    }
+    public Client() {}
 
     public Client(int id, String lastname, String firstname, String email, LocalDate birthdate) {
         this.id = id;
@@ -68,10 +69,6 @@ public class Client {
     }
     public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
-    }
-
-    public String getClient_info() {
-        return lastname + " " + firstname;
     }
 
     @Override

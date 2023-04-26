@@ -26,7 +26,7 @@
                     <div class="box">
 
                         <!-- form start -->
-                        <form class="form-horizontal" method="post" action="/users/create">
+                        <form class="form-horizontal" method="post" >
                             <div class="box-body">
                                 <!-- lastname -->
                                 <div class="form-group">

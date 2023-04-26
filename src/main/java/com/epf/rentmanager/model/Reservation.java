@@ -13,10 +13,8 @@ public class Reservation {
     private int id;
     private int client_id, vehicle_id;
     private String startTime, endTime;
-    private String client_info, vehicle_info;
 
-    public Reservation() {
-    }
+    public Reservation() { }
 
     public Reservation(int id, int client_id, int vehicle_id, LocalDate startTime, LocalDate endTime) {
         this.id = id;
@@ -31,16 +29,6 @@ public class Reservation {
         this.vehicle_id = vehicle_id;
         this.startTime = startTime.toString();
         this.endTime = endTime.toString();
-    }
-
-    public Reservation(int id, int clientId, int vehicleId, LocalDate startTime, LocalDate endTime, String client_info, String vehicle_info) {
-        this.id = id;
-        this.client_id = clientId;
-        this.vehicle_id = vehicleId;
-        this.startTime = startTime.toString();
-        this.endTime = endTime.toString();
-        this.client_info = client_info;
-        this.vehicle_info = vehicle_info;
     }
 
     // getters and setters id
@@ -82,13 +70,6 @@ public class Reservation {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
-
-    // getters and setters client_info/vehicle_info
-    public String getClient_info() { return client_info; }
-    public void setClient_info(String client_info) { this.client_info = client_info; }
-    public String getVehicle_info() { return vehicle_info; }
-    public void setVehicle_info(String vehicle_info) { this.vehicle_info = vehicle_info; }
-
 
     @Override
     public String toString() {

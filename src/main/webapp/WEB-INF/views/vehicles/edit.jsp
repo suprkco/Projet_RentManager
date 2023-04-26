@@ -14,7 +14,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Voitures
+                Utilisateurs
             </h1>
         </section>
 
@@ -24,56 +24,46 @@
                 <div class="col-md-12">
                     <!-- Horizontal Form -->
                     <div class="box">
+
                         <!-- form start -->
-                        <!-- Le  type de methode http qui sera appel� lors de action submit du formulaire -->
-                        <!-- est d�crit an l'attribut "method" de la balise forme -->
-                        <!-- action indique � quel "cible" sera envoyr la requ�te, ici notre Servlet qui sera bind sur -->
-                        <!-- /vehicles/create -->
-                        <form class="form-horizontal" method="post">
+                        <form class="form-horizontal" method="post" >
                             <div class="box-body">
-                                <div class="form-group">
-                                    <label for="manufacturer" class="col-sm-2 control-label">Marque</label>
 
-									<!-- Pour r�up�rer la valeur rentr�e dans un champ input de cette jsp au niveau de votre servlet -->
-									<!-- vous devez passer par les methodes getParameter de l'objet request, est sp�cifiant la valeur -->
-									<!-- de l'attribut "name" de l'input -->
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="Marque" required>
-                                    </div>
-                                </div>
+                                <!-- Manufacturer -->
                                 <div class="form-group">
-                                    <label for="model" class="col-sm-2 control-label">Modele</label>
+                                    <label for="manufacturer" class="col-sm-2 control-label">Manufacturer</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="model" name="model" placeholder="Modele" required>
+                                        <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="${vehicle.manufacturer}" value="${vehicle.manufacturer}">
                                     </div>
                                 </div>
+
+                                <!-- Model -->
+                                <div class="form-group">
+                                    <label for="model" class="col-sm-2 control-label">Model</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="model" name="model" placeholder="${vehicle.model}" value="${vehicle.model}">
+                                    </div>
+                                </div>
+
+                                <!-- nb_places -->
                                 <div class="form-group">
                                     <label for="nb_places" class="col-sm-2 control-label">Nombre de places</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="nb_places" name="nb_places" placeholder="Nombre de places" required>
+                                        <input type="text" class="form-control" id="nb_places" name="nb_places" placeholder="${vehicle.nb_places}" value="${vehicle.nb_places}">
                                     </div>
                                 </div>
-                                <!--
-                                <div class="form-group">
-                                    <label for="owner" class="col-sm-2 control-label">Propriétaire</label>
 
-                                    <div class="col-sm-10">
-                                        <select class="form-control" id="owner" name="owner">
-                                            <option value="1">John Doe</option>
-                                            <option value="2">Jane Doe</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                -->
                             </div>
                             <!-- /.box-body -->
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-info pull-right">Ajouter</button>
+                                <button type="submit" class="btn btn-info pull-right">Modifier</button>
                             </div>
                             <!-- /.box-footer -->
                         </form>
+
                     </div>
                     <!-- /.box -->
                 </div>
@@ -90,3 +80,4 @@
 <%@ include file="/WEB-INF/views/common/js_imports.jsp" %>
 </body>
 </html>
+

@@ -1,60 +1,81 @@
 package com.epf.rentmanager.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.epf.rentmanager.exception.DaoException;
-import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Vehicle;
-import com.epf.rentmanager.dao.ClientDao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.epf.rentmanager.dao.VehicleDao;
 
+import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.exception.DaoException;
+
+@Service
 public class VehicleService {
 
-	private VehicleDao vehicleDao;
-	public static VehicleService instance;
-	
-	private VehicleService() {
-		this.vehicleDao = VehicleDao.getInstance();
-	}
-	
-	public static VehicleService getInstance() {
-		if (instance == null) {
-			instance = new VehicleService();
+	private final VehicleDao vehicleDao;
+
+	public VehicleService(VehicleDao vehicleDao) { this.vehicleDao = vehicleDao; }
+
+	public void create(Vehicle vehicle) throws ServiceException, DaoException {
+		try {
+			vehicleDao.save(vehicle);
+		} catch (Exception e) {
+			throw new ServiceException("Problem when creating the vehicle " + e.getMessage(), e);
 		}
-		
-		return instance;
 	}
 
-	// We will prevent the creation or update of a Vehicle if its constructor (manufacturer) is empty. We will also make sure that the number of places is greater than 1. If such operations are attempted, we will send a ServiceException.
-	public long create(Vehicle vehicle) throws ServiceException {
-		// TODO: create a vehicle
-		return 0;
-	}
-
-	public Vehicle findById(long id) throws ServiceException {
-		// TODO: recover a vehicle by its id
-		return new Vehicle();
+	public Vehicle findById(int id) throws ServiceException {
+		try {
+			return vehicleDao.findById(id);
+		} catch (Exception e) {
+			throw new ServiceException("Problem when finding the vehicle " + e.getMessage(), e);
+		}
 	}
 
 	public List<Vehicle> findAll() throws ServiceException {
-		// TODO: recover all customers
 		try {
-			return VehicleDao.getInstance().findAll();
-		} catch (DaoException e) {
-			e.printStackTrace();
-			throw new ServiceException("Problem when retrieving the vehicles " + e.getMessage());
+			return vehicleDao.findAll();
+		} catch (Exception e) {
+			throw new ServiceException("Problem when retrieving the vehicles " + e.getMessage(), e);
 		}
 	}
 
-	// get number of vehicles
-	public int getCount() {
+	public void addVehicle(String manufacturer, String model, int nb_places) throws ServiceException, DaoException {
+		Vehicle vehicle = new Vehicle(manufacturer, model, nb_places);
 		try {
-			return VehicleDao.getInstance().getCount();
+			vehicleDao.save(vehicle);
+		} catch (Exception e) {
+			throw new ServiceException("Problem when creating the vehicle " + e.getMessage(), e);
+		}
+	}
+
+	public void update(int id, String manufacturer, String model, int nb_places) throws ServiceException, DaoException {
+		Vehicle vehicle = new Vehicle(id, manufacturer, model, nb_places);
+		// mise à jour du vehicle
+		try {
+			vehicleDao.update(vehicle);
 		} catch (DaoException e) {
-			e.printStackTrace();
-			return 0;
+			throw new ServiceException("Problem when updating the vehicle " + e.getMessage(), e);
+		}
+	}
+
+	public int getCount() throws ServiceException {
+		try {
+			return vehicleDao.getCount();
+		} catch (DaoException e) {
+			throw new ServiceException("Problem when counting the vehicles " + e.getMessage(), e);
+		}
+	}
+
+	public void delete(int id) throws ServiceException, DaoException {
+		// suppression du vehicle
+		try {
+			vehicleDao.delete(id);
+		} catch (DaoException e) {
+			throw new ServiceException("Problem when deleting the vehicle " + e.getMessage(), e);
 		}
 	}
 }

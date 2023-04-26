@@ -6,141 +6,221 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.persistence.ConnectionManager;
 
+@Repository
 public class ClientDao {
-	
-	private static ClientDao instance = null;
-	private ClientDao() {}
-	public static ClientDao getInstance() {
-		if(instance == null) {
-			instance = new ClientDao();
-		}
-		return instance;
-	}
-	
+
+	private final ClientDao instance = null;
+
+	public ClientDao() {}
+
 	private static final String CREATE_CLIENT_QUERY = "INSERT INTO Client(lastname, firstname, email, birthday) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?;";
 	private static final String GET_CLIENTS_COUNT_QUERY = "SELECT COUNT(*) AS count FROM Client;";
 	private static final String FIND_CLIENT_QUERY = "SELECT lastname, firstname, email, birthday FROM Client WHERE id=?;";
 	private static final String FIND_CLIENTS_QUERY = "SELECT id, lastname, firstname, email, birthday FROM Client;";
+	private static final String UPDATE_CLIENT_QUERY = "UPDATE Client SET lastname=?, firstname=?, email=?, birthday=? WHERE id=?;";
 
-	// create a client
-	// When creating or updating a Client, we will make sure that his last name is recorded in CAPITALS in the database.
-	public long create(Client client) throws DaoException {
-		return 0;
+
+	// Insert a client in the database
+	public void save(Client client) throws DaoException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+			// get connection
+			connection = ConnectionManager.getConnection();
+			statement = connection.prepareStatement(CREATE_CLIENT_QUERY);
+			statement.setString(1, client.getLastname().toUpperCase());
+			statement.setString(2, client.getFirstname());
+			statement.setString(3, client.getEmail());
+			statement.setDate(4, Date.valueOf(client.getBirthdate()));
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("Problem when inserting the client: " + e.getMessage(), e);
+		} finally {
+			closeStatement(statement);
+			closeConnection(connection);
+		}
 	}
 
 	// delete a client by its id
-	public long delete(Client client) throws DaoException {
-		return 0;
+	public void delete(int id) throws DaoException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+			// get connection
+			connection = ConnectionManager.getConnection();
+			statement = connection.prepareStatement(DELETE_CLIENT_QUERY);
+			statement.setInt(1, id);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("Problem when deleting the client: " + e.getMessage(), e);
+		} finally {
+			closeStatement(statement);
+			closeConnection(connection);
+		}
 	}
 
 	// find a client by its id
 	public Client findById(int id) throws DaoException {
-		Client client = new Client();
+		Client client = null;
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
 		try {
 			// get connection
-			Connection connection = ConnectionManager.getConnection();
-			PreparedStatement statement = connection.prepareStatement(FIND_CLIENT_QUERY);
-			statement.setInt(1, id);
-			ResultSet resultSet = statement.executeQuery();
-			// if there is a result, create a client
+			connection = ConnectionManager.getConnection();
+			statement = connection.prepareStatement(FIND_CLIENT_QUERY);
+			statement.setLong(1, id);
+			resultSet = statement
+					.executeQuery();
 			if (resultSet.next()) {
-				String lastname = resultSet.getString("lastname");
-				String firstname = resultSet.getString("firstname");
-				String email = resultSet.getString("email");
-				LocalDate birthday = resultSet.getDate("birthday").toLocalDate();
-				// set the attributes of the client
-				client.setId(id);
-				client.setLastname(lastname);
-				client.setFirstname(firstname);
-				client.setEmail(email);
-				client.setBirthdate(birthday);
+				client = new Client(
+						resultSet.getString("lastname"),
+						resultSet.getString("firstname"),
+						resultSet.getString("email"),
+						resultSet.getDate("birthday").toLocalDate()
+				);
 			}
-		// if there is no result, throw an exception
 		} catch (SQLException e) {
-			throw new DaoException("Problem when retrieving the client: " + e.getMessage());
+			throw new DaoException("Problem when finding the client: " + e.getMessage(), e);
+		} finally {
+			closeResultSet(resultSet);
+			closeStatement(statement);
+			closeConnection(connection);
 		}
-		// return the client
 		return client;
 	}
 
 	// find all clients
 	public List<Client> findAll() throws DaoException {
-		List<Client> clients = new ArrayList<Client>();
+		List<Client> clients = new ArrayList<>();
+
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+
 		try {
 			// get connection
-			Connection connection = ConnectionManager.getConnection();
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(FIND_CLIENTS_QUERY);
+			connection = ConnectionManager.getConnection();
+			statement = connection.createStatement();
+			resultSet = statement
+					.executeQuery(FIND_CLIENTS_QUERY);
 			while (resultSet.next()) {
-				int id = resultSet.getInt("id");
-				String lastname = resultSet.getString("lastname");
-				String firstname = resultSet.getString("firstname");
-				String email = resultSet.getString("email");
-				LocalDate birthday = resultSet.getDate("birthday").toLocalDate();
-				// add the client to the list
-				clients.add(new Client(id, lastname, firstname, email, birthday));
+				clients.add(new Client(
+						resultSet.getInt("id"),
+						resultSet.getString("lastname"),
+						resultSet.getString("firstname"),
+						resultSet.getString("email"),
+						resultSet.getDate("birthday").toLocalDate()));
 			}
-		// if there is no result, throw an exception
 		} catch (SQLException e) {
-			throw new DaoException("Problem when retrieving the clients: " + e.getMessage());
+			throw new DaoException("Problem when finding the clients: " + e.getMessage(), e);
+		} finally {
+			closeResultSet(resultSet);
+			closeStatement(statement);
+			closeConnection(connection);
 		}
-		// return the list of clients
 		return clients;
 	}
 
-	// get the number of clients
-    public int getCount() throws DaoException {
-		int count = 0;
+	// update a client
+	public void update(Client client) throws DaoException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+
 		try {
 			// get connection
-			Connection connection = ConnectionManager.getConnection();
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(GET_CLIENTS_COUNT_QUERY);
-			if (resultSet.next()) {
-				count = resultSet.getInt(1);
-			}
-		// if there is no result, throw an exception
-		} catch (SQLException e) {
-			throw new DaoException("Problem when retrieving the number of clients: " + e.getMessage());
-		}
-		// return the number of clients
-		return count;
-    }
+			connection = ConnectionManager.getConnection();
+			statement = connection.prepareStatement(UPDATE_CLIENT_QUERY);
 
-	// Insert a client in the database
-	public void insert(Client client) throws SQLException {
-		Connection connection = ConnectionManager.getConnection();
+			statement.setString(1, client.getLastname().toUpperCase());
+			statement.setString(2, client.getFirstname());
+			statement.setString(3, client.getEmail());
+			statement.setDate(4, Date.valueOf(client.getBirthdate()));
+			statement.setInt(5, client.getId());
 
-		String sql = CREATE_CLIENT_QUERY;
-		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-			stmt.setString(1, client.getLastname());
-			stmt.setString(2, client.getFirstname());
-			stmt.setString(3, client.getEmail());
-			stmt.setDate(4, java.sql.Date.valueOf(client.getBirthdate()));
-			stmt.executeUpdate();
+			statement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DaoException("Problem when updating the client: " + e.getMessage(), e);
 		} finally {
+			closeStatement(statement);
 			closeConnection(connection);
 		}
 	}
 
-	private void closeConnection(Connection connection) {
+	// count the number of clients
+	public int getCount() throws DaoException {
+		int count = 0;
+
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+
 		try {
-			connection.close();
+			// get connection
+			connection = ConnectionManager.getConnection();
+			statement = connection.createStatement();
+			resultSet = statement
+					.executeQuery(GET_CLIENTS_COUNT_QUERY);
+			if (resultSet.next()) {
+				count = resultSet.getInt("count");
+			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DaoException("Problem when counting the clients: " + e.getMessage(), e);
+		} finally {
+			closeResultSet(resultSet);
+			closeStatement(statement);
+			closeConnection(connection);
+		}
+
+		return count;
+	}
+
+	// close the connection
+	private void closeConnection(Connection connection) {
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// silent
+			}
 		}
 	}
 
+	// close the statement
+	private void closeStatement(Statement statement) {
+		if (statement != null) {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// silent
+			}
+		}
+	}
+
+	// close the result set
+	private void closeResultSet(ResultSet resultSet) {
+		if (resultSet != null) {
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				// silent
+			}
+		}
+	}
 }
