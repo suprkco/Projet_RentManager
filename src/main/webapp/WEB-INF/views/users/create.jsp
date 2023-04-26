@@ -14,7 +14,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Utilisateurs
+                Creation d'une fiche client
             </h1>
         </section>
 
@@ -30,7 +30,7 @@
                             <div class="box-body">
                                 <!-- lastname -->
                                 <div class="form-group">
-                                    <label for="lastname" class="col-sm-2 control-label">Lastname</label>
+                                    <label for="lastname" class="col-sm-2 control-label">Nom</label>
 
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Lastname">
@@ -39,7 +39,7 @@
 
                                 <!-- firstname -->
                                 <div class="form-group">
-                                    <label for="firstname" class="col-sm-2 control-label">Firstname</label>
+                                    <label for="firstname" class="col-sm-2 control-label">Prenom</label>
 
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Firstname">
@@ -57,7 +57,7 @@
 
                                 <!-- Birthdate -->
                                 <div class="form-group">
-                                    <label for="birthdate" class="col-sm-2 control-label">Birthdate</label>
+                                    <label for="birthdate" class="col-sm-2 control-label">date de naissance</label>
 
                                     <div class="col-sm-10">
                                         <input type="date" class="form-control" id="birthdate" name="birthdate" placeholder="Birthdate">

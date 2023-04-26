@@ -14,7 +14,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Utilisateurs
+        Modification d'une fiche client
       </h1>
     </section>
 

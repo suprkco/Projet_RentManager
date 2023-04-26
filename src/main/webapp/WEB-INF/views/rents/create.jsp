@@ -14,7 +14,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Reservations
+                Nouvelle reservation
             </h1>
         </section>
 
@@ -28,12 +28,13 @@
                         <form class="form-horizontal" method="post" action="/rents/create">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="car" class="col-sm-2 control-label">Voiture</label>
+                                    <label for="vehicle" class="col-sm-2 control-label">Voiture</label>
 
                                     <div class="col-sm-10">
-                                        <select class="form-control" id="car" name="car">
-                                            <option value="1">Renault Clio</option>
-                                            <option value="2">Citroen C2</option>
+                                        <select class="form-control" id="vehicle" name="vehicle">
+                                            <c:forEach items="${vehicles}" var="vehicle">
+                                                <option value="${vehicle.id}">${vehicle.manufacturer} ${vehicle.model}</option>
+                                            </c:forEach>
                                         </select>
                                     </div>
                                 </div>
@@ -42,25 +43,24 @@
 
                                     <div class="col-sm-10">
                                         <select class="form-control" id="client" name="client">
-                                            <option value="1">John Doe</option>
-                                            <option value="2">Jane Doe</option>
+                                            <c:forEach items="${clients}" var="client">
+                                                <option value="${client.id}">${client.firstname} ${client.lastname}</option>
+                                            </c:forEach>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="begin" class="col-sm-2 control-label">Date de debut</label>
+                                    <label for="startTime" class="col-sm-2 control-label">Date de debut</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="begin" name="begin" required
-                                               data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                        <input type="date" class="form-control" id="startTime" name="startTime" required >
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="end" class="col-sm-2 control-label">Date de fin</label>
+                                    <label for="endTime" class="col-sm-2 control-label">Date de fin</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="end" name="end" required
-                                               data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                        <input type="date" class="form-control" id="endTime" name="endTime" required >
                                     </div>
                                 </div>
                             </div>

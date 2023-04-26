@@ -42,7 +42,7 @@ public class CreateVehicleServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        // récupérer les paramètres du formulaire
+        // récupére les paramètres du formulaire
         String manufacturer = request.getParameter("manufacturer");
         String model = request.getParameter("model");
         int nb_places = Integer.parseInt(request.getParameter("nb_places"));

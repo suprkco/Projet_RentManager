@@ -46,27 +46,16 @@ public class DetailReservationServlet extends HttpServlet  {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
         int id = parseInt(request.getParameter("id"));
+        // recupere la réservation correspondante, le client et le véhicule
         try {
-            request.setAttribute("rent", reservationService.findById(id));
+            Reservation reservation = reservationService.findById(id);
+            request.setAttribute("reservation", reservation);
+            request.setAttribute("client", clientService.findById(reservation.getClient_id()));
+            request.setAttribute("vehicle", vehicleService.findById(reservation.getVehicle_id()));
         } catch (ServiceException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-        // get reservations by client id
-        List<Reservation> reservationClient;
-        try {
-            reservationClient = reservationService.findResaByClient(id);
-            request.setAttribute("reservations", reservationService.findResaByClient(id));
-        } catch (ServiceException e) {
-            throw new RuntimeException(e);
-        }
-        // get reservations by vehicle id
-        List<Reservation> reservationVehicle;
-        try {
-            reservationVehicle = reservationService.findResaByVehicle(id);
-            request.setAttribute("reservations", reservationService.findResaByVehicle(id));
-        } catch (ServiceException e) {
-            throw new RuntimeException(e);
-        }
+
         request.getRequestDispatcher("/WEB-INF/views/rents/details.jsp").forward(request, response);
     }
 

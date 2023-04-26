@@ -44,6 +44,11 @@ public class DetailUserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = parseInt(request.getParameter("id"));
+
+        // On définit la liste des vehicules proprietaire a null par defaut
+        request.setAttribute("vehicles", null);
+
+        // recupere le client concerné
         try {
             request.setAttribute("client", clientService.findById(id));
         } catch (ServiceException e) {

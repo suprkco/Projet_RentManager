@@ -1,5 +1,6 @@
 package com.epf.rentmanager.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.epf.rentmanager.model.Reservation;
@@ -21,11 +22,11 @@ public class ReservationService {
         this.reservationDao = reservationDao;
     }
 
-    public void create(Reservation reservation) throws ServiceException {
+    public void create(int clientId, int vehicleId, LocalDate startTime, LocalDate endTime) throws ServiceException {
+        Reservation reservation = new Reservation(clientId, vehicleId, startTime, endTime);
         try {
             reservationDao.save(reservation);
-        } catch (DaoException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             throw new ServiceException("Problem when creating the reservation " + e.getMessage(), e);
         }
     }
@@ -33,8 +34,7 @@ public class ReservationService {
     public Reservation findById(int id) throws ServiceException {
         try {
             return reservationDao.findById(id);
-        } catch (DaoException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             throw new ServiceException("Problem when finding the reservation " + e.getMessage(), e);
         }
     }
@@ -42,8 +42,7 @@ public class ReservationService {
     public List<Reservation> findAll() throws ServiceException {
         try {
             return reservationDao.findAll();
-        } catch (DaoException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             throw new ServiceException("Problem when retrieving the reservations " + e.getMessage(), e);
         }
     }
@@ -51,8 +50,7 @@ public class ReservationService {
     public List<Reservation> findResaByClient(int id) throws ServiceException {
         try {
             return reservationDao.findResaByClient(id);
-        } catch (DaoException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             throw new ServiceException("Problem when retrieving the reservations " + e.getMessage(), e);
         }
     }
@@ -67,7 +65,9 @@ public class ReservationService {
     }
 
     // modify a reservation
-    public void update(Reservation reservation) throws ServiceException {
+    public void update(int id, int client_id, int vehicle_id, LocalDate startTime, LocalDate endTime) throws ServiceException {
+        Reservation reservation = new Reservation(id, client_id, vehicle_id, startTime, endTime);
+        // mise a jour de la reservation
         try {
             reservationDao.update(reservation);
         } catch (Exception e) {

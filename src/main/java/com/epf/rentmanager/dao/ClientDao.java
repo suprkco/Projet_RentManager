@@ -41,10 +41,12 @@ public class ClientDao {
 			// get connection
 			connection = ConnectionManager.getConnection();
 			statement = connection.prepareStatement(CREATE_CLIENT_QUERY);
+
 			statement.setString(1, client.getLastname().toUpperCase());
 			statement.setString(2, client.getFirstname());
 			statement.setString(3, client.getEmail());
 			statement.setDate(4, Date.valueOf(client.getBirthdate()));
+
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			throw new DaoException("Problem when inserting the client: " + e.getMessage(), e);

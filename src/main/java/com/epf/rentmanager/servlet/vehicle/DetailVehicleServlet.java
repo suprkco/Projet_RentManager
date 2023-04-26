@@ -45,21 +45,29 @@ public class DetailVehicleServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
         int id = parseInt(request.getParameter("id"));
+
+        // définit le client propriétaire à null par défaut
+        request.setAttribute("client", null);
+
+        // recupere les informations du véhicule concerné
         try {
             request.setAttribute("vehicle", vehicleService.findById(id));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
-        // get reservations by client id
+
+        // recupere les réservations par identifiant de vehicule
         List<Reservation> reservationVehicle;
         try {
             reservationVehicle = reservationService.findResaByVehicle(id);
-            request.setAttribute("reservations", reservationService.findResaByVehicle(id));
+            request.setAttribute("reservations", reservationVehicle);
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
+
         int lenReservations = parseInt(String.valueOf(reservationVehicle.size()));
         request.setAttribute("lenReservations", lenReservations);
+
         request.getRequestDispatcher("/WEB-INF/views/vehicles/details.jsp").forward(request, response);
     }
 

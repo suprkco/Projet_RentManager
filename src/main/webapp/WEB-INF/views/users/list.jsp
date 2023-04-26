@@ -14,7 +14,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Utilisateurs
+                Liste des clients
                 <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/create">Ajouter</a>
             </h1>
         </section>

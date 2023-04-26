@@ -14,7 +14,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Voitures
+                Creation d'une fiche vehicule
             </h1>
         </section>
 

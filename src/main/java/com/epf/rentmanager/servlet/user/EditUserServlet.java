@@ -35,7 +35,7 @@ public class EditUserServlet extends HttpServlet {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
-    // recupere les infos de l'utilisateur specifié et les affiche dans le formulaire
+    // récupère les infos de l'utilisateur specifié et les affiche dans le formulaire
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         try {
@@ -49,13 +49,13 @@ public class EditUserServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        // récupérer les paramètres du formulaire
+        // récupère les paramètres du formulaire
         String lastName = request.getParameter("lastname");
         String firstName = request.getParameter("firstname");
         String email = request.getParameter("email");
         String birthdateStr = request.getParameter("birthdate");
 
-        // valider les paramètres
+        // valide les paramètres
         if (lastName == null || lastName.isEmpty() ||
                 firstName == null || firstName.isEmpty() ||
                 email == null || email.isEmpty() ||

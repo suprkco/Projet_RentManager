@@ -37,9 +37,30 @@ public class ReservationDao {
 	private static final String GET_RESERVATIONS_COUNT_QUERY = "SELECT COUNT(*) AS count FROM Reservation;";
 	private static final String FIND_RESERVATION_QUERY = "SELECT id, client_id, vehicle_id, startTime, endTime FROM Reservation WHERE id=?;";
 	private static final String FIND_RESERVATIONS_QUERY = "SELECT id, client_id, vehicle_id, startTime, endTime FROM Reservation;";
+	private static final String UPDATE_RESERVATION_QUERY = "UPDATE Reservation SET client_id=?, vehicle_id=?, startTime=?, endTime=? WHERE id=?;";
 
 	// Insert a reservation in the database
 	public void save(Reservation reservation) throws DaoException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+			// get connection
+			connection = ConnectionManager.getConnection();
+			statement = connection.prepareStatement(CREATE_RESERVATION_QUERY);
+
+			statement.setInt(1, reservation.getClient_id());
+			statement.setInt(2, reservation.getVehicle_id());
+			statement.setDate(3, java.sql.Date.valueOf(reservation.getStartTime()));
+			statement.setDate(4, java.sql.Date.valueOf(reservation.getEndTime()));
+
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("Error while creating a reservation" + e.getMessage(), e);
+		} finally {
+			closeStatement(statement);
+			closeConnection(connection);
+		}
 	}
 
 	// delete a reservation by its id
@@ -63,10 +84,11 @@ public class ReservationDao {
 
 	// find a reservation by its id
 	public Reservation findById(int id) throws DaoException {
+		Reservation reservation = null;
+
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-		Reservation reservation = null;
 
 		try {
 			// get connection
@@ -98,7 +120,25 @@ public class ReservationDao {
 	public void update(Reservation reservation) throws DaoException {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		// TODO
+
+		try {
+			// get connection
+			connection = ConnectionManager.getConnection();
+			statement = connection.prepareStatement(UPDATE_RESERVATION_QUERY);
+
+			statement.setInt(1, reservation.getClient_id());
+			statement.setInt(2, reservation.getVehicle_id());
+			statement.setDate(3, java.sql.Date.valueOf(reservation.getStartTime()));
+			statement.setDate(4, java.sql.Date.valueOf(reservation.getEndTime()));
+			statement.setInt(5, reservation.getId());
+
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("Problem when updating the reservation: " + e.getMessage(), e);
+		} finally {
+			closeStatement(statement);
+			closeConnection(connection);
+		}
 	}
 
 	// find all the reservations
