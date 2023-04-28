@@ -26,6 +26,12 @@ public class ReservationsServlet extends HttpServlet {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private ClientService clientService;
+
+    @Autowired
+    private VehicleService vehicleService;
+
     @Override
     public void init() throws ServletException {
         super.init();
@@ -36,11 +42,14 @@ public class ReservationsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // get all reservations
+        // get all reservations, clients & vehicles services
         try {
-            request.setAttribute("reservations", reservationService.findAll());
+            request.setAttribute("reservations",reservationService.findAll());
+            request.setAttribute("vehicles", vehicleService);
+            request.setAttribute("clients", clientService);
         } catch (ServiceException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/list.jsp").forward(request, response);
